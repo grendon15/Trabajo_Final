@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JM Computer Solutions - Soporte Técnico Integral</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #3b82f6;
+            --light-blue: #93c5fd;
+            --dark-blue: #1e40af;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .navbar {
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+        
+        .navbar.scrolled {
+            background-color: rgba(30, 58, 138, 0.95);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .banner-container {
+            perspective: 1000px;
+        }
+        
+        .banner-slide {
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transform-style: preserve-3d;
+        }
+        
+        .banner-slide.active {
+            transform: scale(1) translateX(0);
+            z-index: 10;
+            opacity: 1;
+        }
+        
+        .banner-slide.prev {
+            transform: scale(0.8) translateX(-100%);
+            opacity: 0.7;
+            z-index: 1;
+        }
+        
+        .banner-slide.next {
+            transform: scale(0.8) translateX(100%);
+            opacity: 0.7;
+            z-index: 1;
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+            opacity: 1 !important;
+        }
+        
+        .feature-card:not(:hover) {
+            opacity: 0.7;
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+            opacity: 1 !important;
+        }
+        
+        .service-card:not(:hover) {
+            opacity: 0.7;
+        }
+        
+        .about-slide {
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .about-slide.active {
+            transform: scale(1);
+            z-index: 10;
+            opacity: 1;
+        }
+        
+        .about-slide:not(.active) {
+            transform: scale(0.8);
+            opacity: 0.5;
+            z-index: 1;
+        }
+        
+        .portfolio-slider {
+            overflow: hidden;
+        }
+        
+        .portfolio-track {
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item {
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+        
+        .contact-input {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid #93c5fd;
+        }
+        
+        .contact-input:focus {
+            border-bottom-color: var(--primary-blue);
+        }
+        
+        .animate-title {
+            animation: fadeInUp 1s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .blue-gradient-text {
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .gallery-slide {
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .gallery-slide.active {
+            transform: scale(1) translateX(0);
+            z-index: 10;
+            opacity: 1;
+        }
+        
+        .gallery-slide.prev {
+            transform: scale(0.8) translateX(-100%);
+            opacity: 0.7;
+            z-index: 1;
+        }
+        
+        .gallery-slide.next {
+            transform: scale(0.8) translateX(100%);
+            opacity: 0.7;
+            z-index: 1;
+        }
+        
+        .dot-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #93c5fd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dot-indicator.active {
+            background-color: #1e40af;
+            transform: scale(1.2);
+        }
+        
+        .sales-container {
+            position: relative;
+        }
+        
+        .sales-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .gallery-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        /* Nuevos estilos para navegación circular */
+        .circular-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 15px;
+        }
+        
+        .circular-nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #3b82f6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .circular-nav-btn:hover {
+            background-color: #1e40af;
+            transform: scale(1.1);
+        }
+        
+        .circular-nav-btn.active {
+            background-color: #1e3a8a;
+            border-color: white;
+            transform: scale(1.1);
+        }
+        
+        /* Estilos para botones de galería */
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 20;
+        }
+        
+        .gallery-nav-btn {
+            background-color: rgba(30, 58, 138, 0.7);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-nav-btn:hover {
+            background-color: rgba(30, 58, 138, 0.9);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navbar -->
+    <nav class="navbar fixed w-full z-50 py-4 px-6 md:px-12 flex justify-between items-center>
+        <div class="flex items-center">
+            <img src="Imagenes/logo.png" alt="JM Computer Solutions Logo" class="h-10 mr-1">
+            <span class="text-blue-600 font-bold text-xl font-bold">JM Computer Solutions</span>
+        </div>
+        <div class="hidden md:flex space-x-8">
+            <a href="#inicio" class="nav-link text-blue-600 hover:text-blue-200 font-bold">Inicio</a>
+            <a href="#conoce-mas" class="nav-link text-blue-600 hover:text-blue-200 font-bold">Conoce Más</a>
+            <a href="#portafolio" class="nav-link text-blue-600 hover:text-blue-200 font-bold">Portafolio</a>
+            <a href="#galeria" class="nav-link text-blue-600 hover:text-blue-200 font-bold">Galería</a>
+            <a href="#contacto" class="nav-link text-blue-600 hover:text-blue-200 font-bold">Contáctenos</a>
+        </div>
+        <button class="md:hidden text-white">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
+    </nav>
+
+    <!-- Banner -->
+    <section class="pt-24 pb-16 px-6 md:px-12 bg-gradient-to-r from-blue-900 to-blue-600">
+        <div class="banner-container relative h-64 md:h-96 overflow-hidden rounded-xl">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <button id="banner-prev" class="absolute left-4 z-20 bg-white bg-opacity-30 hover:bg-opacity-50 text-white p-2 rounded-full transition duration-300">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="banner-slide active absolute next absolute bg-cover bg-center" style="background-image: url(Imagenes/barner.png);"></div>
+                <div class="banner-slide next absolute inset-0 bg-cover bg-center" style="background-image: url(Imagenes/Barner.png);"></div>
+                <div class="banner-slide prev absolute inset-0 bg-cover bg-center" style="background-image: url(Imagenes/barner3.png);"></div>
+                
+                <button id="banner-next" class="absolute right-4 z-20 bg-white bg-opacity-30 hover:bg-opacity-50 text-white p-2 rounded-full transition duration-300">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="absolute inset-0 bg-black bg-opacity-10 flex items-center justify-center">
+                <h1 class="text-white text-3xl md:text-5xl font-bold text-center font-bold">Soluciones Tecnológicas a tu Medida</h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inicio -->
+    <section id="inicio" class="py-16 px-6 md:px-12">
+        <div class="container mx-auto flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10 animate-title">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 blue-gradient-text">Soluciones Integrales para tu Negocio</h2>
+                <p class="text-gray-700 mb-8 text-lg">En JM Computer Solutions nos especializamos en brindar soporte técnico especializado para empresas de todos los tamaños. Nuestro equipo de expertos está listo para resolver cualquier problema tecnológico que pueda afectar tu productividad.</p>
+                <div class="flex space-x-4">
+                    <a href="#portafolio" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300 transform hover:scale-105">Nuestros Servicios</a>
+                    <a href="#contacto" class="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg font-medium transition duration-300 transform hover:scale-105">Contactar Ahora</a>
+                </div>
+            </div>
+            <div class="md:w-1/2 animate-title">
+                <img src="Imagenes/inicio.png">
+            </div>
+        </div>
+    </section>
+
+    <!-- Conoce Más -->
+    <section id="conoce-mas" class="py-16 px-6 md:px-12 bg-gray-100">
+        <div class="container mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center blue-gradient-text">Nuestra Empresa</h2>
+            
+            <div class="relative h-96 mb-16">
+                <button id="about-prev" class="absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="absolute inset-0 flex items-center justify-center space-x-4 md:space-x-8">
+                    <div class="about-slide active bg-white p-8 rounded-xl shadow-lg w-full md:w-1/2 h-80">
+                        <h3 class="text-2xl font-bold text-blue-600 mb-4">Cómo Nacimos</h3>
+                        <p class="text-gray-700">Fundada en 2010, JM Computer Solutions comenzó como un pequeño equipo de expertos en tecnología con la visión de ofrecer soporte técnico accesible y de calidad. Hoy somos líderes en el mercado, gracias a nuestro compromiso con la excelencia y la satisfacción del cliente.</p>
+                    </div>
+                    <div class="about-slide bg-white p-8 rounded-xl shadow-lg w-full md:w-1/2.2 h-64">
+                        <h3 class="text-2xl font-bold text-blue-600 mb-4">Misión y Visión</h3>
+                        <p class="text-gray-700">Ser líderes en la industria de sistemas y redes de datos, reconocidos por nuestra excelencia en la entrega de soluciones tecnológicas innovadoras y personalizadas. Buscamos construir relaciones sólidas y duraderas con nuestros clientes, socios y empleados, y contribuir al desarrollo y crecimiento de la comunidad tecnológica..</p>
+                    </div>
+                    <div class="about-slide bg-white p-8 rounded-xl shadow-lg w-full md:w-1/3 h-64">
+                        <h3 class="text-2xl font-bold text-blue-600 mb-4">Valores</h3>
+                        <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                            <li>Inovación</li>
+                            <li>Calidez</li>
+                            <li>Confianza</li>
+                            <li>Colaboración</li>
+                            <li>seguridad</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <button id="about-next" class="absolute right-0 top-1/2 transform -translate-y-1/2 z-20 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="feature-card bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
+                    <div class="bg-blue-100 p-4 rounded-full mb-4">
+                        <i class="fas fa-clock text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-600 mb-2">Soporte Integral 7*24</h3>
+                    <p class="text-gray-600">Disponibilidad total para resolver tus problemas técnicos en cualquier momento.</p>
+                </div>
+                <div class="feature-card bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
+                    <div class="bg-blue-100 p-4 rounded-full mb-4">
+                        <i class="fas fa-award text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-600 mb-2">+100 Clientes Satisfechos</h3>
+                    <p class="text-gray-600">Nuestra trayectoria avalada por empresas que confían en nuestro trabajo.</p>
+                </div>
+                <div class="feature-card bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
+                    <div class="bg-blue-100 p-4 rounded-full mb-4">
+                        <i class="fas fa-laptop-code text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-600 mb-2">Soporte Multisoftware</h3>
+                    <p class="text-gray-600">Expertos en múltiples plataformas y sistemas operativos.</p>
+                </div>
+                <div class="feature-card bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
+                    <div class="bg-blue-100 p-4 rounded-full mb-4">
+                        <i class="fas fa-plus text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-600 mb-2">Siempre Más</h3>
+                    <p class="text-gray-600">Superamos expectativas con soluciones que van más allá de lo esperado.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portafolio -->
+    <section id="portafolio" class="py-16 px-6 md:px-12">
+        <div class="container mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center blue-gradient-text">Nuestros Servicios</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <div class="service-card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-tools text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-blue-600">Ensambles y reparación de equipos informáticos</h3>
+                    </div>
+                    <img src="Imagenes/Ensamble de PCS.png" alt="Reparación de equipos" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <p class="text-gray-600 mb-4">Servicio especializado en ensamblaje, mantenimiento y reparación de equipos de cómputo para garantizar su óptimo funcionamiento.</p>
+                    <a href="#contacto" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">Conoce más</a>
+                </div>
+                <div class="service-card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-video text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-blue-600">Instalación de CCTV</h3>
+                    </div>
+                    <img src="Imagenes/Instalación CCST.png" alt="Instalación CCTV" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <p class="text-gray-600 mb-4">Sistemas de videovigilancia profesional para proteger tu negocio o residencia con tecnología de última generación.</p>
+                    <a href="#contacto" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">Conoce más</a>
+                </div>
+                <div class="service-card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-microchip text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-blue-600">Soluciones de microelectrónica</h3>
+                    </div>
+                    <img src="Imagenes/microelectronica.png" alt="Microelectrónica" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <p class="text-gray-600 mb-4">Reparación y mantenimiento de componentes electrónicos con tecnología de punta y personal calificado.</p>
+                    <a href="#contacto" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">Conoce más</a>
+                </div>
+                <div class="service-card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-cash-register text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-blue-600">Software de facturación POS</h3>
+                    </div>
+                    <img src="Imagenes/soft facturación.png" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <p class="text-gray-600 mb-4">Sistemas de punto de venta adaptados a las necesidades de tu negocio con soporte técnico permanente.</p>
+                    <a href="#contacto" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">Conoce más</a>
+                </div>
+                <div class="service-card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-network-wired text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-blue-600">Instalación de redes informáticas</h3>
+                    </div>
+                    <img src="Imagenes/redes.png" alt="Redes informáticas" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <p class="text-gray-600 mb-4">Diseño, implementación y mantenimiento de redes cableadas e inalámbricas para óptimo desempeño.</p>
+                    <a href="#contacto" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">Conoce más</a>
+                </div>
+                <div class="service-card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-ethernet text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-blue-600">Cableado estructurado</h3>
+                    </div>
+                    <img src="Imagenes/redes informaticas.png" alt="Cableado estructurado" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <p class="text-gray-600 mb-4">Instalación profesional de cableado estructurado para voz, datos y video con certificación de desempeño.</p>
+                    <a href="#contacto" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">Conoce más</a>
+                </div>
+            </div>
+            
+            <h3 class="text-2xl md:text-3xl font-bold mb-8 text-center blue-gradient-text">Ventas de Equipos</h3>
+            
+            <div class="sales-container">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <!-- Equipos Informáticos -->
+                    <div class="service-card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all" data-category="equipos">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-desktop text-blue-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-blue-600">Equipos Informáticos</h3>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" alt="Equipos informáticos" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <p class="text-gray-600 mb-4">Computadoras, laptops y servidores de las mejores marcas con garantía extendida.</p>
+                        <a href="#contacto" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">Conoce más</a>
+                    </div>
+                    
+                    <!-- Modems - Router -->
+                    <div class="service-card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all hidden" data-category="modems">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-wifi text-blue-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-blue-600">Modems - Router</h3>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1600091474842-83bb9c05a723?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Modems y routers" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <p class="text-gray-600 mb-4">Equipos de red de alto desempeño para conexiones estables y seguras.</p>
+                        <a href="#contacto" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">Conoce más</a>
+                    </div>
+                    
+                    <!-- Cámaras de Seguridad -->
+                    <div class="service-card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all hidden" data-category="camaras">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-camera text-blue-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-blue-600">Cámaras de Seguridad</h3>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1563770660941-20978e870e26?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Cámaras de seguridad" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <p class="text-gray-600 mb-4">Sistemas de vigilancia con tecnología HD, IP y analógica para todo tipo de necesidades.</p>
+                        <a href="#contacto" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">Conoce más</a>
+                    </div>
+                    
+                    <!-- Periféricos DVR -->
+                    <div class="service-card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all hidden" data-category="perifericos">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-keyboard text-blue-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-blue-600">Periféricos DVR</h3>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Periféricos" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <p class="text-gray-600 mb-4">Equipos de grabación y periféricos para completar tus sistemas de seguridad.</p>
+                        <a href="#contacto" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300">Conoce más</a>
+                    </div>
+                </div>
+                
+                <!-- Navegación circular -->
+                <div class="circular-nav">
+                    <button class="circular-nav-btn active" data-category="equipos">
+                        <i class="fas fa-desktop"></i>
+                    </button>
+                    <button class="circular-nav-btn" data-category="modems">
+                        <i class="fas fa-wifi"></i>
+                    </button>
+                    <button class="circular-nav-btn" data-category="camaras">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                    <button class="circular-nav-btn" data-category="perifericos">
+                        <i class="fas fa-keyboard"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galería -->
+    <section id="galeria" class="py-16 px-6 md:px-12 bg-gray-100">
+        <div class="container mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center blue-gradient-text">Galería de Proyectos</h2>
+            
+            <div class="relative h-64 md:h-96 mb-16 overflow-hidden rounded-xl">
+                <!-- Botones de navegación -->
+                <div class="gallery-nav">
+                    <button id="gallery-prev" class="gallery-nav-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="gallery-next" class="gallery-nav-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <!-- Slides de la galería -->
+                <div class="gallery-slide active absolute inset-0 bg-cover bg-center flex items-end" style="background-image: url('Imagenes/redes\ informaticas.png');">
+                    <div class="bg-black bg-opacity-60 text-white p-4 w-full">
+                        <h3 class="text-xl font-bold">Instalación de Redes Corporativas</h3>
+                        <p>Implementación completa de infraestructura de red para empresa de +200 empleados</p>
+                    </div>
+                </div>
+                <div class="gallery-slide prev absolute inset-0 bg-cover bg-center flex items-end" style="background-image: url('Imagenes/migración\ nube.png');">
+                    <div class="bg-black bg-opacity-60 text-white p-4 w-full">
+                        <h3 class="text-xl font-bold">Migración a la Nube</h3>
+                        <p>Transición completa de infraestructura local a soluciones cloud para empresa financiera</p>
+                    </div>
+                </div>
+                <div class="gallery-slide absolute inset-0 bg-cover bg-center flex items-end" style="background-image: url('Imagenes/POS\ resturantes.png');">
+                    <div class="bg-black bg-opacity-60 text-white p-4 w-full">
+                        <h3 class="text-xl font-bold">Sistema POS Personalizado</h3>
+                        <p>Desarrollo de software de punto de venta para cadena de restaurantes</p>
+                    </div>
+                </div>
+                <div class="gallery-slide absolute inset-0 bg-cover bg-center flex items-end" style="background-image: url('Imagenes/rack\ sistemas.png');">
+                    <div class="bg-black bg-opacity-60 text-white p-4 w-full">
+                        <h3 class="text-xl font-bold">Sala de Servidores</h3>
+                        <p>Diseño e implementación de centro de datos para empresas en diferentes areas</p>
+                    </div>
+                </div>
+                
+                <!-- Indicadores de puntos -->
+                <div class="gallery-dots">
+                    <div class="dot-indicator active" data-index="0"></div>
+                    <div class="dot-indicator" data-index="1"></div>
+                    <div class="dot-indicator" data-index="2"></div>
+                    <div class="dot-indicator" data-index="3"></div>
+                    <div class="dot-indicator" data-index="4"></div>
+                </div>
+            </div>
+            
+            <h3 class="text-2xl md:text-3xl font-bold mb-8 text-center blue-gradient-text">Nuestras Experiencias</h3>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="gallery-item bg-white p-4 rounded-lg shadow-md overflow-hidden">
+                    <img src="Imagenes/Discotecas.png" alt="Experiencia 1" class="w-full h-40 object-cover rounded-lg mb-3">
+                    <h4 class="font-bold text-blue-600 mb-2">Empresas de Entretenimiento</h4>
+                    <p class="text-gray-600 text-sm">Implementación de sistemas POS y facturación.</p>
+                </div>
+                <div class="gallery-item bg-white p-4 rounded-lg shadow-md overflow-hidden">
+                    <img src="Imagenes/hoteles.png" alt="Experiencia 2" class="w-full h-40 object-cover rounded-lg mb-3">
+                    <h4 class="font-bold text-blue-600 mb-2">Cadena Hotelera</h4>
+                    <p class="text-gray-600 text-sm">Sistema de reservas y gestión hotelera con integración a plataformas online.</p>
+                </div>
+                <div class="gallery-item bg-white p-4 rounded-lg shadow-md overflow-hidden">
+                    <img src="Imagenes/restaurante.png" alt="Experiencia 3" class="w-full h-40 object-cover rounded-lg mb-3">
+                    <h4 class="font-bold text-blue-600 mb-2">Restaurantes</h4>
+                    <p class="text-gray-600 text-sm">Montaje de Infraestructura y sistemas de integración y gestión</p>
+                </div>
+                <div class="gallery-item bg-white p-4 rounded-lg shadow-md overflow-hidden">
+                    <img src="Imagenes/conjuntos residenciales.png" alt="Experiencia 4" class="w-full h-40 object-cover rounded-lg mb-3">
+                    <h4 class="font-bold text-blue-600 mb-2">Zonas Residenciales</h4>
+                    <p class="text-gray-600 text-sm">Montaje de Camarás y sistema de seguridad auditado por sistemas moviles</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="py-16 px-6 md:px-12 bg-white">
+        <div class="container mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center blue-gradient-text">Contáctenos</h2>
+            
+            <div class="flex flex-col md:flex-row gap-12">
+                <div class="md:w-1/2">
+                    <form class="space-y-6">
+                        <div>
+                            <label for="nombre" class="block text-gray-700 font-medium mb-2">Nombre</label>
+                            <input type="text" id="nombre" class="contact-input w-full px-4 py-2 border-0 border-b-2 focus:outline-none focus:ring-0">
+                        </div>
+                        <div>
+                            <label for="telefono" class="block text-gray-700 font-medium mb-2">Teléfono</label>
+                            <input type="tel" id="telefono" class="contact-input w-full px-4 py-2 border-0 border-b-2 focus:outline-none focus:ring-0">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-700 font-medium mb-2">E-mail</label>
+                            <input type="email" id="email" class="contact-input w-full px-4 py-2 border-0 border-b-2 focus:outline-none focus:ring-0">
+                        </div>
+                        <div>
+                            <label for="servicio" class="block text-gray-700 font-medium mb-2">Servicio a Consultar</label>
+                            <select id="servicio" class="contact-input w-full px-4 py-2 border-0 border-b-2 focus:outline-none focus:ring-0">
+                                <option value="">Seleccione un servicio</option>
+                                <option value="ensambles">Ensambles y reparación</option>
+                                <option value="cctv">Instalación de CCTV</option>
+                                <option value="microelectronica">Soluciones de microelectrónica</option>
+                                <option value="pos">Software POS</option>
+                                <option value="redes">Redes informáticas</option>
+                                <option value="cableado">Cableado estructurado</option>
+                                <option value="equipos">Equipos informáticos</option>
+                                <option value="modems">Modems - Router</option>
+                                <option value="camaras">Cámaras de seguridad</option>
+                                <option value="perifericos">Periféricos DVR</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="comentarios" class="block text-gray-700 font-medium mb-2">Dejanos tus comentarios</label>
+                            <textarea id="comentarios" rows="4" class="contact-input w-full px-4 py-2 border-0 border-b-2 focus:outline-none focus:ring-0"></textarea>
+                        </div>
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300 w-full">Enviar Mensaje</button>
+                    </form>
+                </div>
+                <div class="md:w-1/2">
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-md h-full">
+                        <h3 class="text-2xl font-bold text-blue-600 mb-6">Información de Contacto</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-map-marker-alt text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Dirección</h4>
+                                    <p class="text-gray-600">Cr 43 # 25a - 143 Bod 11 Mall San Julian<br>Medellín-Colombia</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-phone-alt text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Teléfono - ws</h4>
+                                    <p class="text-gray-600">tel: +34 - 300 (6348274)<br>ws: +34 - 300 (6348274)</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-envelope text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Correo Electrónico</h4>
+                                    <p class="text-gray-600">info@jmcomputersolutions.com<br>soporte@jmcomputersolutions.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-clock text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Horario de Atención</h4>
+                                    <p class="text-gray-600">Lunes a Viernes: 6:00 am - 10:00 pm<br>Sábados y Domingos: 9:00 am - 6:00 pm</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 px-6 md:px-12">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-">
+                       <h3 class="text-lg font-bold mb-3">JM Computer Solutions</h3>
+                    </div>
+                    <p class="text-gray-400">Brindando soluciones tecnológicas integrales desde 2010. Comprometidos con la excelencia y la satisfacción del cliente.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Servicios</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition duration-300">Ensambles y reparación</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Instalación de CCTV</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Soluciones microelectrónicas</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Facturacíon POS - Electrincia</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Redes informáticas</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Cableado estructurado</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Ventas</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition duration-300">Equipos Informáticos</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Modems - Router</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Cámaras de Seguridad</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Periféricos DVR</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Síguenos</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="bg-blue-600 hover:bg-blue-700 w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="bg-blue-400 hover:bg-blue-500 w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="bg-pink-600 hover:bg-pink-700 w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="bg-blue-700 hover:bg-blue-800 w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-400 mb-4">Suscríbete a nuestro boletín para recibir las últimas noticias</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Tu correo electrónico" class="px-4 py-2 rounded-l-lg focus:outline-none text-gray-900 w-full">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-r-lg transition duration-300">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 JM Computer Solutions. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Banner slider
+        let currentBannerSlide = 0;
+        const bannerSlides = document.querySelectorAll('.banner-slide');
+        
+        function showBannerSlide(index) {
+            bannerSlides.forEach((slide, i) => {
+                slide.classList.remove('active', 'prev', 'next');
+                
+                if (i === index) {
+                    slide.classList.add('active');
+                } else if (i === (index - 1 + bannerSlides.length) % bannerSlides.length) {
+                    slide.classList.add('prev');
+                } else if (i === (index + 1) % bannerSlides.length) {
+                    slide.classList.add('next');
+                }
+            });
+        }
+        
+        document.getElementById('banner-next').addEventListener('click', function() {
+            currentBannerSlide = (currentBannerSlide + 1) % bannerSlides.length;
+            showBannerSlide(currentBannerSlide);
+        });
+        
+        document.getElementById('banner-prev').addEventListener('click', function() {
+            currentBannerSlide = (currentBannerSlide - 1 + bannerSlides.length) % bannerSlides.length;
+            showBannerSlide(currentBannerSlide);
+        });
+
+        // About slider
+        let currentAboutSlide = 0;
+        const aboutSlides = document.querySelectorAll('.about-slide');
+        
+        function showAboutSlide(index) {
+            aboutSlides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+        }
+        
+        document.getElementById('about-next').addEventListener('click', function() {
+            currentAboutSlide = (currentAboutSlide + 1) % aboutSlides.length;
+            showAboutSlide(currentAboutSlide);
+        });
+        
+        document.getElementById('about-prev').addEventListener('click', function() {
+            currentAboutSlide = (currentAboutSlide - 1 + aboutSlides.length) % aboutSlides.length;
+            showAboutSlide(currentAboutSlide);
+        });
+
+        // Gallery slider
+        let currentGallerySlide = 0;
+        const gallerySlides = document.querySelectorAll('.gallery-slide');
+        const galleryDots = document.querySelectorAll('.gallery-dots .dot-indicator');
+        
+        function showGallerySlide(index) {
+            gallerySlides.forEach((slide, i) => {
+                slide.classList.remove('active', 'prev', 'next');
+                
+                if (i === index) {
+                    slide.classList.add('active');
+                } else if (i === (index - 1 + gallerySlides.length) % gallerySlides.length) {
+                    slide.classList.add('prev');
+                } else if (i === (index + 1) % gallerySlides.length) {
+                    slide.classList.add('next');
+                }
+            });
+            
+            galleryDots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+        
+        // Botones de navegación de la galería
+        document.getElementById('gallery-next').addEventListener('click', function() {
+            currentGallerySlide = (currentGallerySlide + 1) % gallerySlides.length;
+            showGallerySlide(currentGallerySlide);
+        });
+        
+        document.getElementById('gallery-prev').addEventListener('click', function() {
+            currentGallerySlide = (currentGallerySlide - 1 + gallerySlides.length) % gallerySlides.length;
+            showGallerySlide(currentGallerySlide);
+        });
+        
+        galleryDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentGallerySlide = index;
+                showGallerySlide(currentGallerySlide);
+            });
+        });
+
+        // Auto-rotate gallery
+        let galleryInterval = setInterval(() => {
+            currentGallerySlide = (currentGallerySlide + 1) % gallerySlides.length;
+            showGallerySlide(currentGallerySlide);
+        }, 5000);
+
+        // Pause auto-rotation on hover
+        const galleryContainer = document.querySelector('.relative.h-64');
+        galleryContainer.addEventListener('mouseenter', () => {
+            clearInterval(galleryInterval);
+        });
+        
+        galleryContainer.addEventListener('mouseleave', () => {
+            galleryInterval = setInterval(() => {
+                currentGallerySlide = (currentGallerySlide + 1) % gallerySlides.length;
+                showGallerySlide(currentGallerySlide);
+            }, 5000);
+        });
+
+        // Navegación circular para venta de equipos
+        const circularNavBtns = document.querySelectorAll('.circular-nav-btn');
+        const salesCards = document.querySelectorAll('[data-category]');
+        
+        circularNavBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                
+                // Actualizar botones activos
+                circularNavBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Mostrar/ocultar tarjetas
+                salesCards.forEach(card => {
+                    if (card.getAttribute('data-category') === category) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Form submission
+        const contactForm = document.querySelector('form');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Mensaje enviado con éxito. Nos pondremos en contacto contigo pronto.');
+            contactForm.reset();
+        });
+    </script>
+</body>
+</html>
